@@ -38,8 +38,6 @@ public class BulkTransferController implements BulkTransfer {
         Headers headers = new Headers.HeaderBuilder().addHeader(HEADER_CLIENT_CORRELATION_ID, requestId).addHeader(PURPOSE, purpose)
                 .addHeader(FILE_NAME, fileName).addHeader(HEADER_TYPE, type).addHeader(HEADER_PLATFORM_TENANT_ID, tenant).build();
         Exchange exchange = SpringWrapperUtil.getDefaultWrappedExchange(producerTemplate.getCamelContext(), headers);
-        log.info("Inside bulkTransfer");
-        log.info("file: {}", file);
         fileStorageService.save(file);
         producerTemplate.send("direct:post-bulk-transfer", exchange);
         return exchange.getIn().getBody(String.class);

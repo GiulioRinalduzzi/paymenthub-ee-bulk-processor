@@ -41,7 +41,6 @@ public class FileProcessingRouteService {
         String filename = exchange.getProperty(LOCAL_FILE_PATH, String.class);
         log.debug("Local file path: {}", filename);
         CsvSchema schema = CsvSchema.emptySchema().withHeader();
-        log.info("Filename: {}", filename);
         FileReader reader = new FileReader(filename);
         MappingIterator<Transaction> readValues = csvMapper.readerWithSchemaFor(Transaction.class).with(schema).readValues(reader);
         List<Transaction> transactionList = new ArrayList<>();
