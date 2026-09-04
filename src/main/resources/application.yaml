@@ -46,12 +46,12 @@ operations-app:
     batch-aggregate: "/api/v1/batch/"
 
 mock-payment-schema:
-  contactpoint: "http://ph-ee-connector-mock-payment-schema:8080"
+  contactpoint: "http://paymenthub-ee-connector-mock-payment-schema:8080"
   endpoints:
     authorization: "/batches/"
 
 channel:
-  hostname: "https://ph-ee-connector-channel:8443"
+  hostname: "https://paymenthub-ee-connector-channel:8443"
 
 cloud:
   aws:
@@ -139,14 +139,14 @@ security:
       enable: false
 
 identity_account_mapper:
-  hostname : "http://ph-ee-identity-account-mapper:80"
+  hostname : "http://paymenthub-ee-account-mapper:80"
   account_lookup: /beneficiary
   account_lookup_callback: /accountLookupCallback
   batch_account_lookup: /accountLookup
   batch_account_lookup_callback: /batchAccountLookupCallback
 
 bulk_processor:
-  hostname : "http://ph-ee-connector-bulk:82"
+  hostname : "http://paymenthub-ee-connector-bulk:82"
 
 csv:
   columnNames: "id,request_id,payment_mode,payer_identifier_type,payer_identifier,payee_identifier_type,payee_identifier,amount,currency,note"
