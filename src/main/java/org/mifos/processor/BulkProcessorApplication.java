@@ -11,12 +11,16 @@ import org.mifos.connector.common.interceptor.annotation.EnableJsonWebSignature;
 import org.mifos.processor.bulk.api.ApiOriginFilter;
 import org.mifos.processor.bulk.camel.config.HttpClientConfigurerTrustAllCACerts;
 import org.springframework.boot.SpringApplication;
+import org.mifos.processor.bulk.properties.IdentityAccountMapperProperties;
+import org.mifos.processor.bulk.properties.OperationsAppProperties;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 @EnableJsonWebSignature
+@EnableConfigurationProperties({ OperationsAppProperties.class, IdentityAccountMapperProperties.class })
 public class BulkProcessorApplication {
 
     public static void main(String[] args) {
