@@ -71,7 +71,7 @@ class ConfigurationPropertiesTest {
     void anEmptyOutboundHostStopsStartupAndNamesTheProperty() {
         runner.withPropertyValues(shippedConfig()).withPropertyValues("operations-app.contactpoint=").run(context -> {
             assertThat(context.getStartupFailure()).isNotNull();
-            assertThat(stackTrace(context.getStartupFailure())).contains("operations-app.contactpoint must be set");
+            assertThat(causeChain(context.getStartupFailure())).contains("operations-app.contactpoint must be set");
         });
     }
 
@@ -92,9 +92,12 @@ class ConfigurationPropertiesTest {
                 });
     }
 
-    private static String stackTrace(Throwable throwable) {
-        java.io.StringWriter writer = new java.io.StringWriter();
-        throwable.printStackTrace(new java.io.PrintWriter(writer));
-        return writer.toString();
+    /** The message chain, without printStackTrace() - checkstyle forbids it. */
+    private static String causeChain(Throwable throwable) {
+        StringBuilder messages = new StringBuilder();
+        for (Throwable current = throwable; current != null; current = current.getCause()) {
+            messages.append(current.getMessage()).append(System.lineSeparator());
+        }
+        return messages.toString();
     }
 }
