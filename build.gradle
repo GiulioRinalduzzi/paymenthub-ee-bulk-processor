@@ -63,6 +63,9 @@ dependencies {
     // spring dependency
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    // The jakarta.validation annotations on the @ConfigurationProperties records do
+    // nothing without a validator implementation. Version comes from the BOM.
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework:spring-web'
     implementation 'org.springframework.kafka:spring-kafka'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'

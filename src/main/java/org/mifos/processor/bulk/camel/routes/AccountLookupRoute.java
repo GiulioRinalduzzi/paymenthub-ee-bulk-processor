@@ -22,6 +22,8 @@ import org.mifos.processor.bulk.schema.Transaction;
 import org.mifos.processor.bulk.service.BatchAccountLookup;
 import org.mifos.processor.bulk.service.FileProcessingRouteService;
 import org.mifos.processor.bulk.service.FileRouteService;
+import org.mifos.processor.bulk.properties.IdentityAccountMapperProperties;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -29,16 +31,8 @@ import org.springframework.stereotype.Component;
 @SuppressWarnings("unchecked")
 public class AccountLookupRoute extends BaseRouteBuilder {
 
-    @Value("${identity_account_mapper.account_lookup}")
-    private String accountLookupEndpoint;
-    @Value("${identity_account_mapper.hostname}")
-    private String identityURL;
-    @Value("${identity_account_mapper.hostname}")
-    private String identityMapperURL;
-    @Value("${identity_account_mapper.batch_account_lookup_callback}")
-    private String batchAccountLookupCallback;
-    @Value("${identity_account_mapper.batch_account_lookup}")
-    private String batchAccountLookup;
+    @Autowired
+    private IdentityAccountMapperProperties identityAccountMapperProperties;
 
     @Override
     public void configure() throws Exception {
@@ -56,7 +50,7 @@ public class AccountLookupRoute extends BaseRouteBuilder {
             exchange.getIn().setHeader(CALLBACK, callbackUrl);
             exchange.getIn().setHeader(HEADER_REGISTERING_INSTITUTE_ID, registeringInstitutionId);
         }).setHeader(Exchange.HTTP_METHOD, constant("GET"))
-                .toD(identityURL + accountLookupEndpoint + "?" + PAYEE_IDENTITY + "=${exchangeProperty.payeeIdentity}&" + PAYMENT_MODALITY
+                .toD(identityAccountMapperProperties.hostname() + identityAccountMapperProperties.accountLookup() + "?" + PAYEE_IDENTITY + "=${exchangeProperty.payeeIdentity}&" + PAYMENT_MODALITY
                         + "=${exchangeProperty.paymentModality}&" + "requestId=${exchangeProperty.requestId}")
                 .log("API Response: ${body}").process(disableSslProcessor);
 
@@ -92,7 +86,7 @@ public class AccountLookupRoute extends BaseRouteBuilder {
             exchange.getIn().setHeader(REGISTERING_INSTITUTION_ID, registeringInstitutionId);
             exchange.getIn().setHeader("Content-type", "application/json");
             exchange.getIn().setBody(requestBody);
-        }).setHeader(Exchange.HTTP_METHOD, constant("POST")).toD(identityURL + batchAccountLookup).log("API Response: ${body}")
+        }).setHeader(Exchange.HTTP_METHOD, constant("POST")).toD(identityAccountMapperProperties.hostname() + identityAccountMapperProperties.batchAccountLookup()).log("API Response: ${body}")
                 .process(disableSslProcessor);
 
     }
