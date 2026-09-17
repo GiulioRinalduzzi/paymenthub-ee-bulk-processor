@@ -19,9 +19,9 @@ import org.springframework.validation.annotation.Validated;
  */
 @Validated
 @ConfigurationProperties(prefix = "identity-account-mapper")
-public record IdentityAccountMapperProperties(
-        @NotBlank(message = "identity_account_mapper.hostname must be set") String hostname,
+public record IdentityAccountMapperProperties(@NotBlank(message = "identity_account_mapper.hostname must be set") String hostname,
         @NotBlank(message = "identity_account_mapper.account_lookup must be set") String accountLookup,
         @NotBlank(message = "identity_account_mapper.account_lookup_callback must be set") String accountLookupCallback,
         @NotBlank(message = "identity_account_mapper.batch_account_lookup must be set") String batchAccountLookup,
-        @NotBlank(message = "identity_account_mapper.batch_account_lookup_callback must be set") String batchAccountLookupCallback) {}
+        @NotBlank(message = "identity_account_mapper.batch_account_lookup_callback must be set") String batchAccountLookupCallback) {
+}

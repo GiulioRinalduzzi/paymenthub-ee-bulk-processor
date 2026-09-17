@@ -10,13 +10,14 @@ import org.apache.camel.Processor;
 import org.mifos.connector.common.interceptor.annotation.EnableJsonWebSignature;
 import org.mifos.processor.bulk.api.ApiOriginFilter;
 import org.mifos.processor.bulk.camel.config.HttpClientConfigurerTrustAllCACerts;
-import org.springframework.boot.SpringApplication;
 import org.mifos.processor.bulk.properties.IdentityAccountMapperProperties;
 import org.mifos.processor.bulk.properties.OperationsAppProperties;
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Primary;
 
 @SpringBootApplication
 @EnableJsonWebSignature
@@ -27,7 +28,13 @@ public class BulkProcessorApplication {
         SpringApplication.run(BulkProcessorApplication.class, args);
     }
 
+    /**
+     * Marked primary because csvMapper() below returns a CsvMapper, which extends ObjectMapper: without this there are
+     * two candidates for every @Autowired ObjectMapper and injection only resolves because all 19 injection points
+     * happen to be named objectMapper and Spring falls back to matching by name.
+     */
     @Bean
+    @Primary
     public ObjectMapper objectMapper() {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());

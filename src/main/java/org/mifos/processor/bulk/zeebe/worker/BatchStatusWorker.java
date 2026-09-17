@@ -5,7 +5,6 @@ import static org.mifos.processor.bulk.zeebe.ZeebeVariables.COMPLETION_RATE;
 import static org.mifos.processor.bulk.zeebe.ZeebeVariables.TENANT_ID;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Map;
 import org.mifos.processor.bulk.properties.OperationsAppProperties;
 import org.mifos.processor.bulk.schema.BatchDTO;
@@ -58,7 +57,6 @@ public class BatchStatusWorker extends BaseWorker {
 
         ResponseEntity<String> response = restTemplate.exchange(finalUrl, HttpMethod.GET, new HttpEntity<>(null, headers), String.class);
         String batchAggregationResponse = response != null ? response.getBody() : null;
-        ObjectMapper objectMapper = new ObjectMapper();
         BatchDTO batchDTO = null;
         try {
             batchDTO = objectMapper.readValue(batchAggregationResponse, BatchDTO.class);

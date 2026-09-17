@@ -16,13 +16,14 @@ import org.springframework.validation.annotation.Validated;
  */
 @Validated
 @ConfigurationProperties(prefix = "operations-app")
-public record OperationsAppProperties(@NotBlank(message = "operations-app.contactpoint must be set") String contactpoint,
-        String username, String password, @Valid @DefaultValue Endpoints endpoints) {
+public record OperationsAppProperties(@NotBlank(message = "operations-app.contactpoint must be set") String contactpoint, String username,
+        String password, @Valid @DefaultValue Endpoints endpoints) {
 
     public record Endpoints(@NotBlank(message = "operations-app.endpoints.batch-transaction must be set") String batchTransaction,
             @NotBlank(message = "operations-app.endpoints.batch-summary must be set") String batchSummary,
             @NotBlank(message = "operations-app.endpoints.batch-aggregate must be set") String batchAggregate,
-            @NotBlank(message = "operations-app.endpoints.auth must be set") String auth) {}
+            @NotBlank(message = "operations-app.endpoints.auth must be set") String auth) {
+    }
 
     public String batchTransactionUrl() {
         return contactpoint + endpoints.batchTransaction();
