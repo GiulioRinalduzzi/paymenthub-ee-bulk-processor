@@ -16,9 +16,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * routes are talking to the same host.
  */
 @ConfigurationProperties(prefix = "identity-account-mapper")
-public record IdentityAccountMapperProperties(
-        String hostname,
-        String accountLookup,
-        String accountLookupCallback,
-        String batchAccountLookup,
-        String batchAccountLookupCallback) {}
+public record IdentityAccountMapperProperties(String hostname, String accountLookup, String accountLookupCallback,
+        String batchAccountLookup, String batchAccountLookupCallback) {
+}

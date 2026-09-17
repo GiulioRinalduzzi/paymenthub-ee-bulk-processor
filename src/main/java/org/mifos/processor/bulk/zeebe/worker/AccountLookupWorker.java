@@ -26,7 +26,6 @@ import org.mifos.connector.common.channel.dto.TransactionChannelRequestDTO;
 import org.mifos.connector.common.mojaloop.dto.PartyIdInfo;
 import org.mifos.processor.bulk.properties.IdentityAccountMapperProperties;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -69,7 +68,8 @@ public class AccountLookupWorker extends BaseWorker {
             exchange.setProperty(HOST, identityAccountMapperProperties.hostname());
             exchange.setProperty(PAYEE_IDENTITY, payeeIdentity);
             exchange.setProperty(PAYMENT_MODALITY, paymentModality);
-            exchange.setProperty(CALLBACK, identityAccountMapperProperties.hostname() + identityAccountMapperProperties.accountLookupCallback());
+            exchange.setProperty(CALLBACK,
+                    identityAccountMapperProperties.hostname() + identityAccountMapperProperties.accountLookupCallback());
             exchange.setProperty(TRANSACTION_ID, existingVariables.get(TRANSACTION_ID));
             exchange.setProperty("requestId", job.getKey());
             exchange.setProperty(CHANNEL_REQUEST, channelRequest);

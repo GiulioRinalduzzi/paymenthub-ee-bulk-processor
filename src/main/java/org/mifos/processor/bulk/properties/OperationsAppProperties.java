@@ -11,13 +11,10 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * Renaming one would silently break a deployment.
  */
 @ConfigurationProperties(prefix = "operations-app")
-public record OperationsAppProperties(String contactpoint,
-        String username, String password, Endpoints endpoints) {
+public record OperationsAppProperties(String contactpoint, String username, String password, Endpoints endpoints) {
 
-    public record Endpoints(String batchTransaction,
-            String batchSummary,
-            String batchAggregate,
-            String auth) {}
+    public record Endpoints(String batchTransaction, String batchSummary, String batchAggregate, String auth) {
+    }
 
     public String batchTransactionUrl() {
         return contactpoint + endpoints.batchTransaction();

@@ -55,13 +55,15 @@ public class BatchAccountLookupWorker extends BaseWorker {
             exchange.setProperty(HEADER_REGISTERING_INSTITUTE_ID, registeringInstituteId);
             exchange.setProperty(SERVER_FILE_NAME, filename);
             exchange.setProperty(REQUEST_ID, job.getKey());
-            exchange.setProperty(CALLBACK, identityAccountMapperProperties.hostname() + identityAccountMapperProperties.batchAccountLookupCallback());
+            exchange.setProperty(CALLBACK,
+                    identityAccountMapperProperties.hostname() + identityAccountMapperProperties.batchAccountLookupCallback());
 
             try {
                 logger.info("=== BATCH ACCOUNT LOOKUP WORKER DEBUG ===");
                 logger.info("Sending to ACCOUNT_LOOKUP route with registeringInstituteId: {}", registeringInstituteId);
                 logger.info("Filename: {}", filename);
-                logger.info("Callback URL: {}", identityAccountMapperProperties.hostname() + identityAccountMapperProperties.batchAccountLookupCallback());
+                logger.info("Callback URL: {}",
+                        identityAccountMapperProperties.hostname() + identityAccountMapperProperties.batchAccountLookupCallback());
                 sendToCamelRoute(RouteId.ACCOUNT_LOOKUP, exchange);
                 logger.info("ACCOUNT_LOOKUP route call completed successfully");
             } catch (Exception e) {

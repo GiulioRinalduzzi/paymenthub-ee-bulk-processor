@@ -30,13 +30,13 @@ class ConfigurationPropertiesTest {
     /** Exactly what application.yaml ships, underscores and all. */
     private static String[] shippedConfig() {
         return new String[] { "operations-app.contactpoint=https://ops-bk.mifos.gazelle.localhost",
-            "operations-app.endpoints.batch-transaction=/api/v1/batch/transactions",
-            "operations-app.endpoints.batch-summary=/api/v1/batch", "operations-app.endpoints.batch-aggregate=/api/v1/batch/",
-            "operations-app.endpoints.auth=/oauth/token", "identity_account_mapper.hostname=http://ph-ee-identity-account-mapper:80",
-            "identity_account_mapper.account_lookup=/beneficiary",
-            "identity_account_mapper.account_lookup_callback=/accountLookupCallback",
-            "identity_account_mapper.batch_account_lookup=/accountLookup",
-            "identity_account_mapper.batch_account_lookup_callback=/batchAccountLookupCallback" };
+                "operations-app.endpoints.batch-transaction=/api/v1/batch/transactions",
+                "operations-app.endpoints.batch-summary=/api/v1/batch", "operations-app.endpoints.batch-aggregate=/api/v1/batch/",
+                "operations-app.endpoints.auth=/oauth/token", "identity_account_mapper.hostname=http://ph-ee-identity-account-mapper:80",
+                "identity_account_mapper.account_lookup=/beneficiary",
+                "identity_account_mapper.account_lookup_callback=/accountLookupCallback",
+                "identity_account_mapper.batch_account_lookup=/accountLookup",
+                "identity_account_mapper.batch_account_lookup_callback=/batchAccountLookupCallback" };
     }
 
     @Test
@@ -71,9 +71,8 @@ class ConfigurationPropertiesTest {
         fromTheOperator.put("OPERATIONS_APP_ENDPOINTS_BATCH_TRANSACTION", "/api/v1/batch/transactions");
 
         runner.withPropertyValues(shippedConfig())
-                .withInitializer(context -> context.getEnvironment().getPropertySources()
-                        .addFirst(new SystemEnvironmentPropertySource(StandardEnvironment.SYSTEM_ENVIRONMENT_PROPERTY_SOURCE_NAME,
-                                fromTheOperator)))
+                .withInitializer(context -> context.getEnvironment().getPropertySources().addFirst(
+                        new SystemEnvironmentPropertySource(StandardEnvironment.SYSTEM_ENVIRONMENT_PROPERTY_SOURCE_NAME, fromTheOperator)))
                 .run(context -> {
                     OperationsAppProperties properties = context.getBean(OperationsAppProperties.class);
                     assertThat(properties.contactpoint()).isEqualTo("http://ph-ee-operations-app:80");
